@@ -1,0 +1,11 @@
+{
+  "themes": [{
+    "name" : "bbdTheme",
+    "types": [ "account", "admin", "email", "login", "welcome" ]
+  }]
+}
+// Keycloak Version 4.3.0.Final
+
+// https://github.com/keycloak/keycloak/blob/master/themes/src/main/resources/theme/base
+// https://henningwaack.wordpress.com/2018/05/18/keycloak-snippets-themes-in-docker/
+// https://medium.com/@auscunningham/create-a-custom-theme-for-keycloak-8781207be604

@@ -1,0 +1,20 @@
+/*
+.bbd-navbar-title {
+    background-image: url(../img/logo.svg);
+    height: 25px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 25px;
+    margin: 3px 10px 5px;
+    text-indent: -99999px;
+}*/
+
+.bbd-navbar-title {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    float: left;
+    display: block;
+    margin: 5px 10px 5px;
+    font-size: 20px;
+    font-weight: 200;
+    color: rgb(153, 153, 153);
+}
