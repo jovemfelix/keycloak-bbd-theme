@@ -1,0 +1,13 @@
+buildPack: maven
+pipelineConfig:
+  pipelines:
+    pullRequest:
+      promote:
+        replace: true
+        steps:
+        - command: echo do-nothing-promotion
+    release:
+      promote:
+        replace: true
+        steps:
+        - command: jx step changelog --version v\$(cat ../../VERSION)
