@@ -1,83 +1,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <!-- The Basics -->
   <groupId>ca.bbd.keycloak</groupId>
   <artifactId>bbd-themes</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <name>BBD Keycloak Themes</name>
 
   <properties>
-    <jgitflow.version>1.0-m5.1</jgitflow.version>
-    <jsch.version>0.1.54</jsch.version>
-    <pushFeatures>false</pushFeatures>
-    <pushReleases>true</pushReleases>
-    <pushHotfixes>true</pushHotfixes>
+    <maven.test.skip>false</maven.test.skip><!-- set true to skip ALL tests, or use profile skipTests -->
+    <version.maven-deploy-plugin>2.8.2</version.maven-deploy-plugin>
+    <version.maven-surefire-plugin>2.22.2</version.maven-surefire-plugin>
+    <version.wildfly-maven-plugin>2.0.2.Final</version.wildfly-maven-plugin>
+    <wildfly.skip>false</wildfly.skip> <!-- set true to skip ALL wildfly deploy -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <packaging>jar</packaging>
-
+  <!-- Build Settings -->
   <build>
-    <!-- <finalName>bbd-themes</finalName> -->
-
     <plugins>
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>${jgitflow.version}</version>
-        <configuration>
-          <!-- Enable this to push to origin using SSH keys -->
-          <enableSshAgent>true</enableSshAgent>
-          <!-- Whether to turn off project building. If true the project will NOT
-          be built during release finish -->
-          <noReleaseBuild>true</noReleaseBuild>
-          <!-- Pushing in-development features to origin allows all devs to see
-          what each other are working on -->
-          <pushFeatures>${pushFeatures}</pushFeatures>
-          <!-- This allows the CI server (e.g. Jenkins) to automatically push
-          new releases to origin; you can then either manually deploy them or, if you
-          are doing Continuous Deployments, auto-deploy them to prod -->
-          <pushReleases>${pushReleases}</pushReleases>
-          <!-- Hot Fixes should be pushed to origin as well so that any dev can
-          pick them up -->
-          <pushHotfixes>${pushHotfixes}</pushHotfixes>
-          <!-- Prevents deployments from dev workstations so that they can be
-          done by a CI server -->
-          <noDeploy>true</noDeploy>
-          <!-- The message prefix to use for all SCM changes. -->
-          <scmCommentPrefix>[jgit-flow] </scmCommentPrefix>
-          <!-- Whether to use the release profile that adds sources and javadocs
-          to the released artifact, if appropriate. If set to true, the plugin sets
-          the property "performRelease" to true, which activates the profile "release-profile",
-          which is inherited from the super pom. -->
-          <useReleaseProfile>false</useReleaseProfile>
-          <pullDevelop>true</pullDevelop>
-          <pullMaster>true</pullMaster>
-          <flowInitContext>
-            <masterBranchName>master</masterBranchName>
-            <developBranchName>develop</developBranchName>
-            <featureBranchPrefix>feature-</featureBranchPrefix>
-            <releaseBranchPrefix>release-</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix-</hotfixBranchPrefix>
-          </flowInitContext>
-        </configuration>
-        <!-- https://ecosystem.atlassian.net/browse/MJF-282 -->
-        <dependencies>
-          <dependency>
-            <artifactId>jsch</artifactId>
-            <groupId>com.jcraft</groupId>
-            <version>${jsch.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-    
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version></plugin>
-    
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M1</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-deploy-plugin</artifactId><version>${version.maven-deploy-plugin}</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>${version.maven-surefire-plugin}</version><configuration><skipTests>${maven.test.skip}</skipTests></configuration></plugin>
+      <plugin><groupId>org.wildfly.plugins</groupId><artifactId>wildfly-maven-plugin</artifactId><version>${version.wildfly-maven-plugin}</version><configuration><skip>${wildfly.skip}</skip></configuration></plugin>
     </plugins>
   </build>
+
+  <!-- Environment Settings -->
+  <profiles>
+    <profile>
+      <id>skipTests</id>
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+        <checkstyle.skip>true</checkstyle.skip>
+      </properties>
+    </profile>
+  </profiles>
 </project>
